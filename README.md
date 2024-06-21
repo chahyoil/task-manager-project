@@ -8,4 +8,7 @@
 - React
 - Prisma
 - MongoDB
+
+## css
 - tailwind css
+- styled-component
