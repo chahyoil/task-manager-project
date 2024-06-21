@@ -1,14 +1,14 @@
 "use strict";
 
 import React, {createContext, useState, useContext} from "react";
-import themes from "./theme";
+import themes from "./themes";
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
 
-    const [selectedTheme, setSelectedTheme] = useContext(0);
+    const [selectedTheme, setSelectedTheme] = useState(0);
     const theme = themes[selectedTheme];
 
     return (
@@ -16,9 +16,12 @@ export const GlobalProvider = ({ children }) => {
             value={{
                 theme,
             }}>
-            <GlobalUpdateContext.Provider value={setGlobalState}>
+            <GlobalUpdateContext.Provider value={{}}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>
     )
 }
+
+export const useGlobalState = () => useContext(GlobalContext);
+export const useGlobalUpdate = () => useContext(GlobalUpdateContext);
