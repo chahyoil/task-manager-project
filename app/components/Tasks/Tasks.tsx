@@ -12,11 +12,12 @@ interface Props {
 }
 
 function Tasks({title, tasks} : Props) {
-    const {theme} = useGlobalState();
+    const {theme, isLoading } = useGlobalState();
 
     return (
         <TaskStyled theme={theme}>
             <h1>{title}</h1>
+            {!isLoading ? (
             <div className="tasks grid">
                 {tasks.map((task) => (
                     <TaskItem
@@ -32,7 +33,9 @@ function Tasks({title, tasks} : Props) {
                     {plus}
                     Add New Task
                 </button>
-            </div>
+            </div>) : (<div className="tasks-loader w-full h-full flex items-center justify-center">
+                <span className="loader"></span>
+            </div>)}
         </TaskStyled>
     );
 }

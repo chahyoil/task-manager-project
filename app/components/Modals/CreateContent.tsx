@@ -3,6 +3,8 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import toast from "react-hot-toast";
+import Button from "@/app/components/Button/Button";
+import {add} from "@/app/utils/Icons";
 
 function CreateContent() {
     const [title, setTitle] = useState("");
@@ -64,58 +66,68 @@ function CreateContent() {
             <h1>Create a Task</h1>
             <div className="input-control">
                 <label htmlFor="title">Title</label>
-                <input type="text"
-                       id="title"
-                       value={title}
-                       name="title"
-                       onChange={handleChange("title")}
-                       placeholder="title"
+                <input
+                    type="text"
+                    id="title"
+                    value={title}
+                    name="title"
+                    onChange={handleChange("title")}
+                    placeholder="e.g, Watch a video from Fireship."
                 />
             </div>
             <div className="input-control">
                 <label htmlFor="description">Description</label>
                 <textarea
-                    value={title}
+                    value={description}
                     onChange={handleChange("description")}
                     name="description"
                     id="description"
                     rows={4}
-                    placeholder="title"
+                    placeholder="e.g, Watch a video about Next.js Auth"
                 ></textarea>
             </div>
             <div className="input-control">
                 <label htmlFor="date">Date</label>
-                <input type="date"
-                       id="date"
-                       value={title}
-                       name="date"
-                       onChange={handleChange("date")}
-                       placeholder="title"
+                <input
+                    value={date}
+                    onChange={handleChange("date")}
+                    type="date"
+                    name="date"
+                    id="date"
                 />
             </div>
-            <div className="input-control">
-                <label htmlFor="date">Toggle Completed</label>
-                <input type="checkbox"
-                       id="completed"
-                       value={completed.toString()}
-                       name="checkbox"
-                       onChange={handleChange("completed")}
+            <div className="input-control toggler">
+                <label htmlFor="completed">Toggle Completed</label>
+                <input
+                    value={completed.toString()}
+                    onChange={handleChange("completed")}
+                    type="checkbox"
+                    name="completed"
+                    id="completed"
                 />
             </div>
-            <div className="input-control">
-                <label htmlFor="date">Toggle Important</label>
-                <input type="checkbox"
-                       id="important"
-                       value={important.toString()}
-                       name="checkbox"
-                       onChange={handleChange("important")}
+            <div className="input-control toggler">
+                <label htmlFor="important">Toggle Important</label>
+                <input
+                    value={important.toString()}
+                    onChange={handleChange("important")}
+                    type="checkbox"
+                    name="important"
+                    id="important"
                 />
             </div>
 
-            <div className="submit-btn">
-                <button type="submit">
-                    <span>Submit</span>
-                </button>
+            <div className="submit-btn flex justify-end">
+                <Button
+                    type="submit"
+                    name="Create Task"
+                    icon={add}
+                    padding={"0.8rem 2rem"}
+                    borderRad={"0.8rem"}
+                    fw={"500"}
+                    fs={"1.2rem"}
+                    background={"rgb(0, 163, 255)"}
+                />
             </div>
         </form>
     );
