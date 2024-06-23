@@ -16,7 +16,7 @@ function CreateContent() {
     const [completed, setCompleted] = useState(false);
     const [important, setImportant] = useState(false);
 
-    const {theme, allTasks} = useGlobalState();
+    const {theme, allTasks, closeModal} = useGlobalState();
 
     const handleChange = (name : string) => (e : any) => {
         switch(name) {
@@ -53,13 +53,16 @@ function CreateContent() {
 
         try {
             const res = await axios.post("/api/tasks", task);
-
             if(res.data.error) {
                 toast.error(res.data.error);
             }
 
-            toast.success("Task created successfully")
-            await allTasks();
+            if(!res.data.error){
+                toast.success("Task created successfully")
+                await allTasks();
+                closeModal();
+            }
+
         } catch(error) {
             toast.error("에러");
             console.log(error);
