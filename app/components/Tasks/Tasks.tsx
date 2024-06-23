@@ -4,7 +4,8 @@ import styled from "styled-components";
 import {useGlobalState} from "@/app/context/globalProvider";
 import CreateContent from "@/app/components/Modals/CreateContent";
 import TaskItem from "@/app/components/TaskItem/TaskItem";
-import {plus} from "@/app/utils/Icons";
+import {add, plus} from "@/app/utils/Icons";
+import Modal from "@/app/components/Modals/Modal";
 
 interface Props {
     title: string;
@@ -12,11 +13,13 @@ interface Props {
 }
 
 function Tasks({title, tasks} : Props) {
-    const {theme, isLoading } = useGlobalState();
+    const { theme, isLoading, openModal, modal } = useGlobalState();
 
     return (
         <TaskStyled theme={theme}>
+            {modal && <Modal content={<CreateContent />} />}
             <h1>{title}</h1>
+
             {!isLoading ? (
             <div className="tasks grid">
                 {tasks && tasks.map((task) => (
@@ -29,12 +32,12 @@ function Tasks({title, tasks} : Props) {
                         id={task.id}
                     />
                 ))}
-                <button className="create-task">
+                <button className="create-task" onClick={openModal}>
                     {plus}
                     Add New Task
                 </button>
             </div>) : (<div className="tasks-loader w-full h-full flex items-center justify-center">
-                <span className="loader"></span>
+            <span className="loader"></span>
             </div>)}
         </TaskStyled>
     );
