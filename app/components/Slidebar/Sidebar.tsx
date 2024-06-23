@@ -7,11 +7,17 @@ import Image from "next/image";
 import menu from "@/app/utils/menu";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
+import Button from "@/app/components/Button/Button";
+import {logout} from "@/app/utils/Icons";
+import {useClerk} from "@clerk/nextjs";
 
 function Sidebar() {
     const {theme} = useGlobalState();
 
+
+    const { signOut} = useClerk();
     const router = useRouter();
+
     const pathname = usePathname();
 
     const handleClick = (link : string) => {
@@ -46,19 +52,39 @@ function Sidebar() {
                 );
             })}
         </ul>
-        <button></button>
-    </SidebarStyled>;
+        <div className="sign-out relative m-6">
+            <Button
+                name={"Sign Out"}
+                type={"submit"}
+                padding={"0.4rem 0.8rem"}
+                borderRad={"0.8rem"}
+                fw={"500"}
+                fs={"1.2rem"}
+                icon={logout}
+                click={() => {
+                    signOut(() => router.push("/signin"));
+                }}
+            />
+        </div>
+    </SidebarStyled>
+;
 }
 const SidebarStyled = styled.nav`
-    position: relative;
-    width: ${(props) => props.theme.sidebarWidth};
-    background-color: ${(props) => props.theme.colorBg2};
-    border: 2px solid ${(props) => props.theme.borderColor2};
-    
-    border-radius: 1rem;
-    display:flex;
-    flex-direction:column;
-    justify-content: space-between;
+position: relative;
+width: ${
+    (props) => props.theme.sidebarWidth
+};
+background-color: ${
+    (props) => props.theme.colorBg2
+};
+border: 2px solid ${
+    (props) => props.theme.borderColor2
+};
+
+border-radius: 1rem;
+display:flex;
+flex-direction:column;
+justify-content: space-between;
     
     color : ${(props) => props.theme.colorGrey3};
     
