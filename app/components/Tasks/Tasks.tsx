@@ -19,7 +19,7 @@ function Tasks({title, tasks} : Props) {
             <h1>{title}</h1>
             {!isLoading ? (
             <div className="tasks grid">
-                {tasks.map((task) => (
+                {tasks && tasks.map((task) => (
                     <TaskItem
                         key={task.id}
                         title={task.title}

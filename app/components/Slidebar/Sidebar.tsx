@@ -9,15 +9,18 @@ import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import Button from "@/app/components/Button/Button";
 import {logout} from "@/app/utils/Icons";
-import {useClerk} from "@clerk/nextjs";
+import {useClerk, UserButton, useUser} from "@clerk/nextjs";
 
 function Sidebar() {
     const {theme} = useGlobalState();
-
-
     const { signOut} = useClerk();
-    const router = useRouter();
 
+    const {user} = useUser();
+
+    const {firstName, lastName, imageUrl} = user ||
+    {firstName: "", lastName : "", imageUrl: ""};
+
+    const router = useRouter();
     const pathname = usePathname();
 
     const handleClick = (link : string) => {
@@ -28,11 +31,13 @@ function Sidebar() {
         <div className="profile">
             <div className="profile-overlay"></div>
             <div className="image">
-                <Image width={70} height={70} src="/avatar.jpg" alt="profile"/>
+                <Image width={70} height={70} src={imageUrl} alt="profile"/>
             </div>
-            <h1>
-                <span>John</span>
-                <span>hyoil</span>
+            <div className={"user-btn absolute z-20 top-0 w-full h-full"}>
+                <UserButton />
+            </div>
+            <h1 className={"capitalize"}>
+                {firstName && lastName ? `${firstName} ${lastName}` : "User"}
             </h1>
         </div>
         <ul className="nav-items">
@@ -69,24 +74,37 @@ function Sidebar() {
     </SidebarStyled>
 ;
 }
-const SidebarStyled = styled.nav`
-position: relative;
-width: ${
-    (props) => props.theme.sidebarWidth
-};
-background-color: ${
-    (props) => props.theme.colorBg2
-};
-border: 2px solid ${
-    (props) => props.theme.borderColor2
-};
-
-border-radius: 1rem;
-display:flex;
-flex-direction:column;
-justify-content: space-between;
+    const SidebarStyled = styled.nav`
+    position: relative;
+    width: ${
+        (props) => props.theme.sidebarWidth
+    };
+    background-color: ${
+        (props) => props.theme.colorBg2
+    };
+    border: 2px solid ${
+        (props) => props.theme.borderColor2
+    };
+    
+    border-radius: 1rem;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
     
     color : ${(props) => props.theme.colorGrey3};
+        
+    .user-btn {
+        .cl-rootBox {
+            width: 100%;
+            height: 100%;
+            
+            .cl-userButtonAvatarBox {
+                width: 100%;
+                height: 100%;
+                opacity:0;
+            }
+        }
+    }
     
     .profile{
         margin:1.5rem;
